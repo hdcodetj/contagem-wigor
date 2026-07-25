@@ -748,3 +748,229 @@ footer {
     animation-iteration-count: 1 !important;
   }
 }
+
+/* =========================================================
+   EXERCÍCIO DE RESPIRAÇÃO
+========================================================= */
+
+.breathing-widget {
+  position: fixed;
+  z-index: 50;
+  top: 50%;
+  right: 18px;
+  width: 275px;
+
+  padding: 22px;
+
+  color: var(--text);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(87, 217, 197, 0.14),
+      rgba(157, 140, 255, 0.14)
+    ),
+    rgba(18, 24, 45, 0.96);
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 24px;
+
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(15px);
+
+  transform: translateY(-50%);
+}
+
+.breathing-content {
+  text-align: center;
+}
+
+.breathing-small-title {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--accent);
+
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+}
+
+.breathing-widget h2 {
+  margin: 0;
+
+  font-size: 1.55rem;
+  letter-spacing: -0.04em;
+}
+
+.breathing-introduction {
+  margin: 10px 0 18px;
+
+  color: var(--muted);
+
+  font-size: 0.83rem;
+  line-height: 1.5;
+}
+
+.breathing-circle {
+  width: 145px;
+  height: 145px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  border: 3px solid rgba(87, 217, 197, 0.55);
+  border-radius: 50%;
+
+  background: rgba(87, 217, 197, 0.08);
+
+  transition:
+    transform 1s ease,
+    background 1s ease,
+    border-color 1s ease;
+}
+
+.breathing-circle span {
+  max-width: 110px;
+
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.breathing-circle strong {
+  margin-top: 5px;
+
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Durante a inspiração, o círculo aumenta */
+
+.breathing-circle.inhale {
+  transform: scale(1.13);
+
+  border-color: var(--primary-light);
+  background: rgba(157, 140, 255, 0.18);
+}
+
+/* Durante a expiração, o círculo diminui */
+
+.breathing-circle.exhale {
+  transform: scale(0.9);
+
+  border-color: var(--accent);
+  background: rgba(87, 217, 197, 0.12);
+}
+
+/* Durante a pausa, o círculo fica parado */
+
+.breathing-circle.hold {
+  transform: scale(1.13);
+
+  border-color: #f0d990;
+  background: rgba(240, 217, 144, 0.1);
+}
+
+.breathing-button {
+  width: 100%;
+
+  padding: 12px 15px;
+
+  border: 0;
+  border-radius: 999px;
+
+  color: #090d1a;
+  background: linear-gradient(
+    135deg,
+    var(--primary-light),
+    var(--accent)
+  );
+
+  font-weight: 850;
+  cursor: pointer;
+
+  transition: transform 180ms ease;
+}
+
+.breathing-button:hover {
+  transform: translateY(-2px);
+}
+
+.breathing-warning {
+  margin: 13px 0 0;
+
+  color: var(--muted);
+
+  font-size: 0.66rem;
+  line-height: 1.45;
+}
+
+.breathing-minimize {
+  position: absolute;
+  top: 9px;
+  right: 12px;
+
+  width: 28px;
+  height: 28px;
+
+  border: 0;
+  border-radius: 50%;
+
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.07);
+
+  cursor: pointer;
+}
+
+.breathing-open-button {
+  display: none;
+
+  padding: 13px 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 999px;
+
+  color: var(--text);
+  background: rgba(18, 24, 45, 0.96);
+
+  font-weight: 750;
+  cursor: pointer;
+}
+
+/* Quando estiver minimizado */
+
+.breathing-widget.minimized {
+  width: auto;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.breathing-widget.minimized .breathing-content,
+.breathing-widget.minimized .breathing-minimize {
+  display: none;
+}
+
+.breathing-widget.minimized .breathing-open-button {
+  display: block;
+}
+
+/* Celular */
+
+@media (max-width: 750px) {
+  .breathing-widget {
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+
+    width: min(275px, calc(100% - 24px));
+
+    transform: none;
+  }
+}

@@ -319,3 +319,117 @@ elements.audioPlayer.addEventListener("pause", () => {
 });
 
 elements.audioPlayer.addEventListener("ended", playNextTrack);
+
+
+// ============================================================
+// EXERCÍCIO DE RESPIRAÇÃO
+// ============================================================
+
+(() => {
+  const breathingWidget = document.getElementById("breathingWidget");
+  const breathingCircle = document.getElementById("breathingCircle");
+  const breathingInstruction = document.getElementById(
+    "breathingInstruction"
+  );
+  const breathingSeconds = document.getElementById("breathingSeconds");
+  const breathingButton = document.getElementById("breathingButton");
+  const breathingMinimize = document.getElementById(
+    "breathingMinimize"
+  );
+  const breathingOpenButton = document.getElementById(
+    "breathingOpenButton"
+  );
+
+  const breathingSteps = [
+    {
+      instruction: "Expire devagar",
+      seconds: 6,
+      className: "exhale"
+    },
+    {
+      instruction: "Inspire pelo nariz",
+      seconds: 4,
+      className: "inhale"
+    },
+    {
+      instruction: "Segure",
+      seconds: 2,
+      className: "hold"
+    }
+  ];
+
+  let currentStepIndex = 0;
+  let secondsRemaining = breathingSteps[0].seconds;
+  let breathingInterval = null;
+  let isBreathing = false;
+
+  function showCurrentStep() {
+    const currentStep = breathingSteps[currentStepIndex];
+
+    breathingInstruction.textContent = currentStep.instruction;
+    breathingSeconds.textContent = secondsRemaining;
+
+    breathingCircle.classList.remove(
+      "inhale",
+      "exhale",
+      "hold"
+    );
+
+    breathingCircle.classList.add(currentStep.className);
+  }
+
+  function goToNextStep() {
+    currentStepIndex =
+      (currentStepIndex + 1) % breathingSteps.length;
+
+    secondsRemaining =
+      breathingSteps[currentStepIndex].seconds;
+
+    showCurrentStep();
+  }
+
+  function startBreathing() {
+    isBreathing = true;
+    breathingButton.textContent = "Pausar respiração";
+
+    showCurrentStep();
+
+    breathingInterval = window.setInterval(() => {
+      secondsRemaining -= 1;
+
+      if (secondsRemaining <= 0) {
+        goToNextStep();
+        return;
+      }
+
+      breathingSeconds.textContent = secondsRemaining;
+    }, 1000);
+  }
+
+  function pauseBreathing() {
+    isBreathing = false;
+
+    window.clearInterval(breathingInterval);
+    breathingInterval = null;
+
+    breathingButton.textContent = "Continuar respiração";
+  }
+
+  function toggleBreathing() {
+    if (isBreathing) {
+      pauseBreathing();
+    } else {
+      startBreathing();
+    }
+  }
+
+  breathingButton.addEventListener("click", toggleBreathing);
+
+  breathingMinimize.addEventListener("click", () => {
+    breathingWidget.classList.add("minimized");
+  });
+
+  breathingOpenButton.addEventListener("click", () => {
+    breathingWidget.classList.remove("minimized");
+  });
+})();

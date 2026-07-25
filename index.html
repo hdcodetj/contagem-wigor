@@ -200,7 +200,51 @@
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+<aside class="breathing-widget" id="breathingWidget">
+  <button
+    class="breathing-minimize"
+    id="breathingMinimize"
+    type="button"
+    aria-label="Minimizar exercício de respiração"
+  >
+    −
+  </button>
 
+  <div class="breathing-content">
+    <span class="breathing-small-title">MODO CALMA</span>
+
+    <h2>Respira, Wigor 😌</h2>
+
+    <p class="breathing-introduction">
+      A ansiedade fala alto, mas você pode respirar mais alto.
+    </p>
+
+    <div class="breathing-circle" id="breathingCircle">
+      <span id="breathingInstruction">Pronto?</span>
+      <strong id="breathingSeconds">—</strong>
+    </div>
+
+    <button
+      class="breathing-button"
+      id="breathingButton"
+      type="button"
+    >
+      Começar respiração
+    </button>
+
+    <p class="breathing-warning">
+      Faça devagar. Pare caso sinta tontura ou desconforto.
+    </p>
+  </div>
+
+  <button
+    class="breathing-open-button"
+    id="breathingOpenButton"
+    type="button"
+  >
+    🫁 Respirar
+  </button>
+</aside>
   <script src="fotos.js"></script>
   <script src="musicas.js"></script>
   <script src="script.js"></script>
