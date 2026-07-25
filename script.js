@@ -342,19 +342,19 @@ elements.audioPlayer.addEventListener("ended", playNextTrack);
 
   const breathingSteps = [
     {
-      instruction: "Expire devagar",
-      seconds: 6,
-      className: "exhale"
-    },
-    {
       instruction: "Inspire pelo nariz",
-      seconds: 4,
+      seconds: 3,
       className: "inhale"
     },
     {
       instruction: "Segure",
-      seconds: 2,
+      seconds: 5,
       className: "hold"
+    },
+    {
+      instruction: "Expire devagar",
+      seconds: 6,
+      className: "exhale"
     }
   ];
 
