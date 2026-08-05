@@ -974,3 +974,134 @@ footer {
     transform: none;
   }
 }
+
+/* =========================================================
+   FOTO AMPLIADA
+========================================================= */
+
+.clickable-photo {
+  cursor: zoom-in;
+}
+
+.clickable-photo:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 5px;
+}
+
+body.photo-modal-open {
+  overflow: hidden;
+}
+
+.photo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  padding: 30px;
+
+  background: rgba(5, 8, 20, 0.94);
+  backdrop-filter: blur(8px);
+}
+
+.photo-modal.active {
+  display: flex;
+}
+
+.photo-modal-content {
+  width: 100%;
+  max-width: 1200px;
+  max-height: 95vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.photo-modal-image {
+  display: block;
+
+  max-width: 92vw;
+  max-height: 82vh;
+
+  object-fit: contain;
+  border-radius: 14px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.65),
+    0 0 30px rgba(255, 255, 255, 0.08);
+
+  animation: photo-modal-open 250ms ease;
+}
+
+.photo-modal-caption {
+  max-width: 850px;
+  margin: 18px 0 0;
+
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.photo-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  z-index: 1;
+
+  width: 48px;
+  height: 48px;
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    background 180ms ease;
+}
+
+.photo-modal-close:hover,
+.photo-modal-close:focus-visible {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+@keyframes photo-modal-open {
+  from {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 620px) {
+  .photo-modal {
+    padding: 18px;
+  }
+
+  .photo-modal-image {
+    max-width: 96vw;
+    max-height: 78vh;
+  }
+
+  .photo-modal-close {
+    top: 10px;
+    right: 10px;
+  }
+}

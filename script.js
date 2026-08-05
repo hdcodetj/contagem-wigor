@@ -20,7 +20,11 @@ const elements = {
   volumeControl: document.getElementById("volumeControl"),
   currentTrackTitle: document.getElementById("currentTrackTitle"),
   currentTrackDescription: document.getElementById("currentTrackDescription"),
-  musicPlaylist: document.getElementById("musicPlaylist")
+  musicPlaylist: document.getElementById("musicPlaylist"),
+  photoModal: document.getElementById("photoModal"),
+  photoModalImage: document.getElementById("photoModalImage"),
+  photoModalCaption: document.getElementById("photoModalCaption"),
+  photoModalClose: document.getElementById("photoModalClose")
 };
 
 function padNumber(number) {
@@ -98,6 +102,7 @@ function renderMainPhoto(photo) {
     : "Foto do Wigor";
   elements.photoDate.textContent = formatPhotoDate(photo.data);
   elements.photoCaption.textContent = photo.legenda || "Foto do dia";
+  elements.mainPhoto.dataset.caption = photo.legenda || "Foto do dia";
 }
 
 function renderGallery(photos) {
@@ -114,7 +119,10 @@ function renderGallery(photos) {
 
   photos.forEach((photo) => {
     const article = document.createElement("article");
-    article.className = "gallery-card";
+    article.className = "gallery-card clickable-photo";
+    article.tabIndex = 0;
+    article.setAttribute("role", "button");
+    article.setAttribute("aria-label", "Clique para ampliar esta foto");
 
     const image = document.createElement("img");
     image.src = photo.arquivo;
@@ -133,10 +141,77 @@ function renderGallery(photos) {
     const caption = document.createElement("p");
     caption.textContent = photo.legenda || "Registro da contagem regressiva";
 
+    function openThisPhoto() {
+      openPhotoModal(
+        photo.arquivo,
+        image.alt,
+        photo.legenda || "Registro da contagem regressiva"
+      );
+    }
+
+    article.addEventListener("click", openThisPhoto);
+    article.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openThisPhoto();
+      }
+    });
+
     overlay.append(date, caption);
     article.append(image, overlay);
     elements.photoGallery.appendChild(article);
   });
+}
+
+
+// ============================================================
+// MODAL DA FOTO AMPLIADA
+// ============================================================
+
+let lastFocusedPhoto = null;
+
+function openPhotoModal(source, alternativeText, caption) {
+  if (!elements.photoModal) {
+    return;
+  }
+
+  lastFocusedPhoto = document.activeElement;
+
+  elements.photoModalImage.src = source;
+  elements.photoModalImage.alt = alternativeText || "Foto do Wigor ampliada";
+  elements.photoModalCaption.textContent = caption || "";
+
+  elements.photoModal.classList.add("active");
+  elements.photoModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("photo-modal-open");
+
+  elements.photoModalClose.focus();
+}
+
+function closePhotoModal() {
+  if (!elements.photoModal) {
+    return;
+  }
+
+  elements.photoModal.classList.remove("active");
+  elements.photoModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("photo-modal-open");
+
+  elements.photoModalImage.src = "";
+  elements.photoModalImage.alt = "";
+  elements.photoModalCaption.textContent = "";
+
+  if (lastFocusedPhoto instanceof HTMLElement) {
+    lastFocusedPhoto.focus();
+  }
+}
+
+function openMainPhoto() {
+  openPhotoModal(
+    elements.mainPhoto.src,
+    elements.mainPhoto.alt,
+    elements.mainPhoto.dataset.caption || elements.photoCaption.textContent
+  );
 }
 
 
@@ -304,6 +379,31 @@ elements.musicToggleButton.addEventListener("click", toggleMusic);
 elements.musicHeaderButton.addEventListener("click", toggleMusic);
 elements.previousTrackButton.addEventListener("click", playPreviousTrack);
 elements.nextTrackButton.addEventListener("click", playNextTrack);
+
+elements.mainPhoto.addEventListener("click", openMainPhoto);
+elements.mainPhoto.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === " ") {
+    event.preventDefault();
+    openMainPhoto();
+  }
+});
+
+elements.photoModalClose.addEventListener("click", closePhotoModal);
+
+elements.photoModal.addEventListener("click", (event) => {
+  if (event.target === elements.photoModal) {
+    closePhotoModal();
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (
+    event.key === "Escape" &&
+    elements.photoModal.classList.contains("active")
+  ) {
+    closePhotoModal();
+  }
+});
 
 elements.volumeControl.addEventListener("input", (event) => {
   elements.audioPlayer.volume = Number(event.target.value);

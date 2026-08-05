@@ -168,8 +168,12 @@
       <article class="featured-photo-card">
         <img
           id="mainPhoto"
+          class="clickable-photo"
           src="assets/fotos/wigor-01.png"
           alt="Foto do Wigor"
+          role="button"
+          tabindex="0"
+          aria-label="Clique para ampliar a foto"
         >
 
         <div class="featured-photo-info">
@@ -245,6 +249,40 @@
     🫁 Respirar
   </button>
 </aside>
+
+  <!-- MODAL DA FOTO AMPLIADA -->
+  <div
+    id="photoModal"
+    class="photo-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Foto ampliada"
+    aria-hidden="true"
+  >
+    <button
+      id="photoModalClose"
+      class="photo-modal-close"
+      type="button"
+      aria-label="Fechar foto ampliada"
+    >
+      &times;
+    </button>
+
+    <div class="photo-modal-content">
+      <img
+        id="photoModalImage"
+        class="photo-modal-image"
+        src=""
+        alt=""
+      >
+
+      <p
+        id="photoModalCaption"
+        class="photo-modal-caption"
+      ></p>
+    </div>
+  </div>
+
   <script src="fotos.js"></script>
   <script src="musicas.js"></script>
   <script src="script.js"></script>
